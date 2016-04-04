@@ -1,0 +1,34 @@
+{% extends 'layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/example.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <span class="glyphicon glyphicon-search" aria-hidden="true" aria-label="test"></span>
+    {% if user is not null %}
+        Hello {{ data.user.username }}<br />
+        {# path generates relative urls, use url to get absolute urls #}
+        <a href="#path('fos_user_security_logout')">Logout</a>
+        <br />
+        <a href="#path('fos_user_profile_show') }}">Profile</a>
+        <br />
+        <a href="#path('fos_user_change_password')">Change password</a>
+        <br />
+    {% else %}
+        <a href="#path('fos_user_security_login')">Login</a>
+        <br />
+        <a href="#path('fos_user_registration_register')">Register</a>
+        <br />
+        <a href="#path('fos_user_resetting_request')">Reset password</a>
+        <br />
+    {% endif %}
+    You are on the email test page<br />
+
+    Test email was triggered with following parameters:<br />
+    Subject: {{ email.subject }}<br />
+    From: {{ email.from }}<br />
+    To: {{ email.to }} <br />
+    Number of emails sent (0 means failure): {{ numEmailsSent }} <br />
+{% endblock %}

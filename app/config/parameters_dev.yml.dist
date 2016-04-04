@@ -1,0 +1,22 @@
+parameters:
+    # api
+    database.api.host:  localhost
+    database.api.port:  ~
+    database.api.name:  inventory_system
+    database.api.user:  apidev
+    database.api.password:  apidev
+    # api archive
+    database.api_archive.host: localhost
+    database.api_archive.port: ~
+    database.api_archive.name: inventory_system_archive
+    database.api_archive.user: apidev
+    database.api_archive.password: apidev
+    # for SwiftMailer
+    mailer_transport: smtp
+    mailer_host: localhost
+    mailer_port: 25
+    mailer_user: null
+    mailer_password: null
+    use_mailcatcher: true
+    # misc
+    email_sender:   noreply@rahi.inventory-system.com

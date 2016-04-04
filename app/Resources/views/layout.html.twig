@@ -1,0 +1,36 @@
+{#
+    If you want to use AsseticBundle features like cssrewrites refer to
+    https://symfony.com/doc/2.7/cookbook/assetic/asset_management.html#cookbook-assetic-cssrewrite
+    You will need to install java:
+    $ sudo yum install java-1.8.0-openjdk
+#}
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>
+            {% block title %}
+                Rahi Api
+            {% endblock %}
+        </title>
+        {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('js/jquery-1.12.0.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+        {% endblock %}
+    </head>
+    <body>
+        {% block flashMessages %}
+            Flash message:<br />
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="flash-notice">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+        {% endblock %}
+        {% block body %}{% endblock %}
+    </body>
+</html>

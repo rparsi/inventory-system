@@ -1,0 +1,93 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+    app.locales: en|es|fr
+    #tools.wkhtmltopdf: /usr/local/bin/wkhtmltopdf
+
+framework:
+    #esi:             ~
+    translator:      { fallbacks: ["%locale%"] }
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: ~
+    form:            ~
+    csrf_protection: ~
+    validation:      { enable_annotations: true }
+    #serializer:      { enable_annotations: true }
+    templating:
+        engines: ['twig']
+        #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trusted_hosts:   ~
+    trusted_proxies: ~
+    session:
+        # http://symfony.com/doc/current/reference/configuration/framework.html#handler-id
+        handler_id:  session.handler.native_file
+        save_path:   "%kernel.root_dir%/../var/sessions/%kernel.environment%"
+    fragments:       ~
+    http_method_override: true
+    assets: { version: '1' }
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        default_connection: api
+        connections:
+            api:
+                driver: pdo_mysql
+                host: "%database.api.host%"
+                port: "%database.api.port%"
+                dbname: "%database.api.name%"
+                user: "%database.api.user%"
+                password: "%database.api.password%"
+                charset: utf8mb4
+            api_archive:
+                driver: pdo_mysql
+                host: "%database.api_archive.host%"
+                port: "%database.api_archive.port%"
+                dbname: "%database.api_archive.name%"
+                user: "%database.api_archive.user%"
+                password: "%database.api_archive.password%"
+                charset: utf8mb4
+    orm:
+        default_entity_manager: api
+        auto_generate_proxy_classes: "%kernel.debug%"
+        entity_managers:
+            api:
+                auto_mapping: true
+                connection: api
+                mappings:
+                    RahiApiBundle:  ~
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: "%mailer_transport%"
+    host:      "%mailer_host%"
+    username:  "%mailer_user%"
+    password:  "%mailer_password%"
+    #spool:     { type: memory }
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: Rahi\ApiBundle\Entity\Account\User
+    registration:
+        confirmation:
+            enabled: true
+            from_email:
+                address: 'registration@inventory-system.com'
+                sender_name: 'customer.service'
+        form:
+            type: Rahi\ApiBundle\Form\RegistrationType

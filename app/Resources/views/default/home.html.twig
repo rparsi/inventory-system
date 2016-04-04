@@ -1,0 +1,73 @@
+{% extends 'layout.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript" src="{{ asset('js/example.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+    <span class="glyphicon glyphicon-search" aria-hidden="true" aria-label="test"></span>
+    {% if user is not null %}
+        Hello {{ user.username }}<br />
+        {# path generates relative urls, use url to get absolute urls #}
+        <a href="{{ path('fos_user_security_logout') }}">Logout</a>
+        <br />
+        <a href="{{ path('fos_user_profile_show') }}">Profile</a>
+        <br />
+        <a href="{{ path('fos_user_change_password') }}">Change password</a>
+        <br />
+    {% else %}
+        <a href="{{ path('fos_user_security_login') }}">Login</a>
+        <br />
+        <a href="{{ path('fos_user_registration_register') }}">Register</a>
+        <br />
+        <a href="{{ path('fos_user_resetting_request') }}">Reset password</a>
+        <br />
+    {% endif %}
+    You are on the home page<br />
+
+    <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+            Dropdown
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Select Test to run</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('jsontest') }}" target="_blank">Run json test</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('emailtest') }}" target="_blank">Run email test</a></li>
+            <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('datatest') }}" target="_blank">Run data test</a></li>
+        </ul>
+    </div>
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">Mailer Settings</h3>
+        </div>
+        <div class="panel-body">
+            mailer_transport: {{ mailerSettings.mailer_transport }}<br />
+            mailer_host: {{ mailerSettings.mailer_host }}<br />
+            mailer_port: {{ mailerSettings.mailer_port }}<br />
+            mailer_user: {{ mailerSettings.mailer_user }}<br />
+            mailer_password: {{ mailerSettings.mailer_password }}<br />
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    ...yolo...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

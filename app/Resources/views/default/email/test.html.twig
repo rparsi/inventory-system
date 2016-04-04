@@ -1,0 +1,35 @@
+<html>
+    <head>
+        <title>Email Test</title>
+        <style type="text/css">
+            body {
+                font-family: Tahoma, Arial;
+                font-size: 14pt;
+                background-color: #FFFFFF;
+                color: #000000;
+            }
+
+            p.header {
+                padding: 4px;
+                font-weight: bold;
+                background-color: #000000;
+                color: #FFFFFF;
+            }
+
+            p.header {
+                padding: 2px;
+                foreground-color: #00CC00;
+            }
+        </style>
+    </head>
+    <body>
+        <p class="header">
+            This is a test email
+        </p>
+        <p class="message">
+            Subject: {{ emailData.subject }} <br />
+            From: {{ emailData.from }} <br />
+            To: {{ emailData.to }}
+        </p> 
+    </body>
+</html>

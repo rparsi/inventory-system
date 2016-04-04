@@ -1,0 +1,22 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+#    service_name:
+#        class: AppBundle\Directory\ClassName
+#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    app.custom_mailer:
+        class:  AppBundle\Service\CustomMailer
+        arguments:  ["@mailer", "%use_mailcatcher%", "%mailer_host%", "%mailer_port%"]
+
+    app.form.registration:
+        class: Rahi\ApiBundle\Form\RegistrationType
+        tags:
+            - { name: form.type, alias: app_user_registration }
+
+    app.event.user_registration:
+        class: Rahi\ApiBundle\EventListener\RegistrationListener
+        tags:
+            - { name: kernel.event_subscriber }

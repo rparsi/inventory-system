@@ -1,0 +1,22 @@
+parameters:
+    # api
+        database.api.host:  localhost
+        database.api.port:  ~
+        database.api.name:  inventory_system
+        database.api.user:  apiuser
+        database.api.password:  apiuser
+        # api archive
+        database.api_archive.host: localhost
+        database.api_archive.port: ~
+        database.api_archive.name: inventory_system_archive
+        database.api_archive.user: apiuser
+        database.api_archive.password: apiuser
+        # for SwiftMailer
+        mailer_transport: smtp
+        mailer_host: localhost
+        mailer_port: 25
+        mailer_user: null
+        mailer_password: null
+        use_mailcatcher: false
+    # misc
+    email_sender:   noreply@inventory-system.com
