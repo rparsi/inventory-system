@@ -6,19 +6,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
-class DefaultController extends Controller
+class DefaultController extends AbstractAppController
 {
-    // will be moved to ControllerHelperTrait trait
-    public function getLoggedInUser()
-    {
-        // refer to http://symfony.com/doc/current/book/security.html#checking-to-see-if-a-user-is-logged-in-is-authenticated-fully
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            return null;
-        }
-        return $this->getUser();
-    }
-
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
@@ -48,9 +39,7 @@ class DefaultController extends Controller
     public function jsonTestAction(Request $request)
     {
         $data = ['foobar' => true, 'version' => 1];
-        $response = new JsonResponse();
-        $response->setData($data);
-        return $response;
+        return $this->createJsonResponse($data);
     }
 
     /**
@@ -89,18 +78,9 @@ class DefaultController extends Controller
      */
     public function dataTestAction(Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->getEntityManager();
         $repository = $em->getRepository('RahiApiBundle:Account\Company\CompanyType');
         $companyTypes = $repository->findAll();
-        $data = [];
-        foreach ($companyTypes as $companyType) {
-            $key = 'id_' . $companyType->id;
-            $data[$key] = [
-                'id' => $companyType->id,
-                'name' => $companyType->name,
-                'slug' => $companyType->slug
-            ];
-        }
-        return new JsonResponse($data);
+        return $this->createJsonResponse($companyTypes);
     }
 }

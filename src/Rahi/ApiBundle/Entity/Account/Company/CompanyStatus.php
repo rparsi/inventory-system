@@ -22,6 +22,8 @@ use Rahi\ApiBundle\Entity\AbstractEntity;
  *      indexes={@ORM\Index(name="slug_idx", columns={"slug"})},
  *      options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"}
  * )
+ *
+ * We will NOT use CompanyStatus for deletions...all deletions will be hard deletes
  */
 class CompanyStatus extends AbstractEntity
 {

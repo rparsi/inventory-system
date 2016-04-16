@@ -13,6 +13,7 @@
 /var/sessions/*
 !var/sessions/.gitkeep
 !var/SymfonyRequirements.php
+!var/jms/.gitkeep
 /vendor/
 /web/bundles/
 /app/config/parameters_dev.yml

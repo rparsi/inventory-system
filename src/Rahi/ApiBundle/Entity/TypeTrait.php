@@ -8,6 +8,7 @@
 namespace Rahi\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 trait TypeTrait
 {
@@ -15,16 +16,22 @@ trait TypeTrait
      * @ORM\Column(type="integer", options={"unsigned": true})
      * @ORM\Id
      * @ORM\GeneratedValue
+     *
+     * @JMS\Expose
      */
     protected $id;
     /**
      * @var string
      * @ORM\Column(type="string", length=100, name="name_")
+     *
+     * @JMS\Expose
      */
     protected $name;
     /**
      * @var string
      * @ORM\Column(type="string", length=30, name="slug")
+     *
+     * @JMS\Expose
      */
     protected $slug;
 }

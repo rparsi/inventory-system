@@ -10,6 +10,7 @@ namespace Rahi\ApiBundle\Entity\Account\Company;
 
 use Rahi\ApiBundle\Entity\TypeTrait;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Rahi\ApiBundle\Entity\AbstractEntity;
 
 /**
@@ -22,6 +23,8 @@ use Rahi\ApiBundle\Entity\AbstractEntity;
  *      indexes={@ORM\Index(name="slug_idx", columns={"slug"})},
  *      options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"}
  * )
+ *
+ * @JMS\ExclusionPolicy("all")
  */
 class CompanyType extends AbstractEntity
 {

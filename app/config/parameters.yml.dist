@@ -7,5 +7,9 @@ parameters:
     mailer_user:       ~
     mailer_password:   ~
 
+    # jms settings
+    # accepted values: yes, no, none
+    jms_debug_override: none
+
     # A secret key that's used to generate certain security-related tokens
     secret:            rahi2016$jBrGjMdNcRfAeG@s270api
