@@ -12,14 +12,8 @@ use JMS\Serializer\Annotation as JMS;
 
 trait TypeTrait
 {
-    /**
-     * @ORM\Column(type="integer", options={"unsigned": true})
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     *
-     * @JMS\Expose
-     */
-    protected $id;
+    use IdTrait;
+
     /**
      * @var string
      * @ORM\Column(type="string", length=100, name="name_")
@@ -27,6 +21,7 @@ trait TypeTrait
      * @JMS\Expose
      */
     protected $name;
+
     /**
      * @var string
      * @ORM\Column(type="string", length=30, name="slug")

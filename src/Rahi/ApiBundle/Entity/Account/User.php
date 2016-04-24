@@ -9,13 +9,16 @@
 namespace Rahi\ApiBundle\Entity\Account;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Rahi\ApiBundle\Entity\IdTrait;
 use Rahi\ApiBundle\Model;
 use FOS\UserBundle\Model\User as BaseUser;
 use Symfony\Component\Validator\Constraints as Assert;
 use Rahi\ApiBundle\Entity\DateLoggerTrait;
 use Rahi\ApiBundle\Entity\Account\Company\Company;
+use Rahi\ApiBundle\Entity\Account\Company\CompanyRep;
 use Rahi\ApiBundle\Entity\Account\PhoneNumber\PhoneNumber;
 use Rahi\ApiBundle\Entity\Locale\Locale;
 use Rahi\ApiBundle\Entity\Locale\Address\Address;
@@ -27,6 +30,8 @@ use Rahi\ApiBundle\Entity\Locale\Timezone;
  * Using utf8mb4 encoding as per Symfony2 docs at http://symfony.com/doc/current/book/doctrine.html (under "Setting up the Database to be UTF8")
  * Refer to https://florian.ec/articles/mysql-doctrine-utf8/
  * @ORM\Table(name="fos_user", options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"})
+ *
+ * @JMS\ExclusionPolicy("all")
  */
 class User extends BaseUser
 {
@@ -38,6 +43,8 @@ class User extends BaseUser
      * @ORM\Column(type="integer", options={"unsigned": true})
      * @ORM\Id
      * @ORM\GeneratedValue
+     *
+     * @JMS\Expose
      */
     protected $id;
 
@@ -159,7 +166,7 @@ class User extends BaseUser
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Rahi\ApiBundle\Entity\Account\Company\Company", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Rahi\ApiBundle\Entity\Account\Company\Company", inversedBy="users", indexBy="id")
      * @ORM\JoinTable(name="users_companies")
      */
     protected $companies;
@@ -173,7 +180,7 @@ class User extends BaseUser
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Rahi\ApiBundle\Entity\Account\PhoneNumber\PhoneNumber")
+     * @ORM\ManyToMany(targetEntity="Rahi\ApiBundle\Entity\Account\PhoneNumber\PhoneNumber", indexBy="id")
      * @ORM\JoinTable(name="users_numbers",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="number_id", referencedColumnName="id")}
@@ -183,7 +190,7 @@ class User extends BaseUser
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="EmailAddress")
+     * @ORM\ManyToMany(targetEntity="EmailAddress", indexBy="id")
      * @ORM\JoinTable(name="users_email_addresses",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="email_address_id", referencedColumnName="id")}
@@ -200,7 +207,7 @@ class User extends BaseUser
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Rahi\ApiBundle\Entity\Locale\Address\Address")
+     * @ORM\ManyToMany(targetEntity="Rahi\ApiBundle\Entity\Locale\Address\Address", indexBy="id")
      * @ORM\JoinTable(name="users_addresses",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="address_id", referencedColumnName="id")}
@@ -234,6 +241,23 @@ class User extends BaseUser
      */
     protected $timezone;
 
+    /**
+     * $this represents other companies via CompanyRep
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Rahi\ApiBundle\Entity\Account\Company\CompanyRep", mappedBy="user", indexBy="id")
+     */
+    protected $repClients;
+
+    /**
+     * $this is represented by other companies via CompanyRep
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="Rahi\ApiBundle\Entity\Account\Company\CompanyRep", mappedBy="clientUser", indexBy="id")
+     */
+    protected $repClientsOf;
+
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -241,56 +265,93 @@ class User extends BaseUser
         $this->phoneNumbers = new ArrayCollection();
         $this->emailAddresses = new ArrayCollection();
         $this->addresses = new ArrayCollection();
+        $this->repClients = new ArrayCollection();
+        $this->repClientsOf = new ArrayCollection();
     }
 
+    /**
+     * @param Collection $companies
+     * @return User
+     */
     public function setCompanies(Collection $companies)
     {
         $this->companies = $companies;
         return $this;
     }
 
+    /**
+     * @param Company $company
+     * @return User
+     */
     public function addCompany(Company $company)
     {
         $this->companies[] = $company;
         return $this;
     }
 
+    /**
+     * @param PhoneNumber $number
+     * @return User
+     */
     public function addPhoneNumber(PhoneNumber $number)
     {
         $this->phoneNumbers[] = $number;
         return $this;
     }
 
+    /**
+     * @param Collection $phoneNumbers
+     * @return User
+     */
     public function setPhoneNumbers(Collection $phoneNumbers)
     {
         $this->phoneNumbers = $phoneNumbers;
         return $this;
     }
 
+    /**
+     * @param EmailAddress $emailAddress
+     * @return User
+     */
     public function addEmailAddress(EmailAddress $emailAddress)
     {
         $this->emailAddresses[] = $emailAddress;
         return $this;
     }
 
+    /**
+     * @param Collection $emailAddresses
+     * @return User
+     */
     public function setEmailAddresses(Collection $emailAddresses)
     {
         $this->emailAddresses = $emailAddresses;
         return $this;
     }
 
+    /**
+     * @param Address $address
+     * @return User
+     */
     public function addAddress(Address $address)
     {
         $this->addresses[] = $address;
         return $this;
     }
 
+    /**
+     * @param Collection $addresses
+     * @return User
+     */
     public function setAddresses(Collection $addresses)
     {
         $this->addresses = $addresses;
         return $this;
     }
 
+    /**
+     * @return User
+     */
     public function setDefaultValues()
     {
         $now = new \DateTime();
@@ -301,6 +362,9 @@ class User extends BaseUser
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function getDefaultRoles()
     {
         return ['ROLE_USER'];
@@ -413,6 +477,48 @@ class User extends BaseUser
     {
         $this->timezone = $timezone;
 
+        return $this;
+    }
+
+    /**
+     * @param CompanyRep $repClient
+     * @return User
+     */
+    public function addRepClient(CompanyRep $repClient)
+    {
+        $repClient->setUser($this);
+        $this->repClients[] = $repClient;
+        return $this;
+    }
+
+    /**
+     * @param Collection $repClients
+     * @return User
+     */
+    public function setRepClients(Collection $repClients)
+    {
+        $this->repClients = $repClients;
+        return $this;
+    }
+
+    /**
+     * @param CompanyRep $repClientOf
+     * @return User
+     */
+    public function addRepClientOf(CompanyRep $repClientOf)
+    {
+        $repClientOf->setClientUser($this);
+        $this->repClientsOf[] = $repClientOf;
+        return $this;
+    }
+
+    /**
+     * @param Collection $repClientsOf
+     * @return User
+     */
+    public function setRepClientsOf(Collection $repClientsOf)
+    {
+        $this->repClientsOf = $repClientsOf;
         return $this;
     }
 }

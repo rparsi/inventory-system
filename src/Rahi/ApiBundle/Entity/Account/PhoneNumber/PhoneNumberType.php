@@ -9,6 +9,7 @@
 namespace Rahi\ApiBundle\Entity\Account\PhoneNumber;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rahi\ApiBundle\Entity\AbstractEntity;
@@ -24,6 +25,8 @@ use Rahi\ApiBundle\Entity\TypeTrait;
  *      indexes={@ORM\Index(name="slug_idx", columns={"slug"})},
  *      options={"collate"="utf8mb4_unicode_ci", "charset"="utf8mb4"}
  * )
+ *
+ * @JMS\ExclusionPolicy("all")
  */
 class PhoneNumberType extends AbstractEntity
 {

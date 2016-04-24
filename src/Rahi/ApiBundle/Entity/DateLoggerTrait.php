@@ -8,7 +8,7 @@
 namespace Rahi\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
+use JMS\Serializer\Annotation as JMS;
 
 trait DateLoggerTrait
 {
@@ -16,6 +16,8 @@ trait DateLoggerTrait
      * @var \DateTime $createdDate
      *
      * @ORM\Column(type="datetime", name="created_date")
+     *
+     * @JMS\Expose
      */
     protected $createdDate;
 
@@ -23,8 +25,18 @@ trait DateLoggerTrait
      * @var \DateTime $modifiedDate
      *
      * @ORM\Column(type="datetime", name="modified_date", nullable=true)
+     *
+     * @JMS\Expose
      */
     protected $modifiedDate;
+
+    /**
+     * @return \DateTime
+     */
+    public function getCreatedDate()
+    {
+        return $this->createdDate;
+    }
 
     /**
      * @param \DateTime $createdDate
@@ -34,6 +46,14 @@ trait DateLoggerTrait
     {
         $this->createdDate = $createdDate;
         return $this;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getModifiedDate()
+    {
+        return $this->modifiedDate;
     }
 
     /**

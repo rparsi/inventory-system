@@ -2,9 +2,9 @@
 
 namespace Rahi\ApiBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Controller\AbstractAppController;
 
-class DefaultController extends Controller
+class DefaultController extends AbstractAppController
 {
     public function indexAction()
     {

@@ -8,23 +8,25 @@
 namespace Rahi\ApiBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 trait StatusTrait
 {
-    /**
-     * @ORM\Column(type="integer", options={"unsigned": true})
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     */
-    protected $id;
+    use IdTrait;
+
     /**
      * @var string
      * @ORM\Column(type="string", length=100, name="name_")
+     *
+     * @JMS\Expose
      */
     protected $name;
+
     /**
      * @var string
      * @ORM\Column(type="string", length=30, name="slug")
+     *
+     * @JMS\Expose
      */
     protected $slug;
 }

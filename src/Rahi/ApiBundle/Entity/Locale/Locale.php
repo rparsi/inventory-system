@@ -9,9 +9,11 @@
 namespace Rahi\ApiBundle\Entity\Locale;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use Rahi\ApiBundle\Entity\AbstractEntity;
+use Rahi\ApiBundle\Entity\IdTrait;
 
 /**
  * @ORM\Entity(repositoryClass="Rahi\ApiBundle\Entity\Repository\Locale\LocaleRepository")
@@ -25,19 +27,18 @@ use Rahi\ApiBundle\Entity\AbstractEntity;
  *          @ORM\UniqueConstraint(name="unique_locale_idx", columns={"language_id", "country_id"})
  *      }
  * )
+ *
+ * @JMS\ExclusionPolicy("all")
  */
 class Locale extends AbstractEntity
 {
-    /**
-     * @ORM\Column(type="integer", options={"unsigned": true})
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     */
-    protected $id;
+    use IdTrait;
 
     /**
      * @var string
      * @ORM\Column(type="string", length=100, name="name_")
+     *
+     * @JMS\Expose
      */
     protected $name;
 
@@ -46,6 +47,8 @@ class Locale extends AbstractEntity
      * Refer to "Translations" section in http://symfony.com/doc/current/book/translation.html
      * @var string
      * @ORM\Column(type="string", length=10, name="iso_code")
+     *
+     * @JMS\Expose
      */
     protected $isoCode;
 
@@ -53,6 +56,8 @@ class Locale extends AbstractEntity
      * @var Language
      * @ORM\ManyToOne(targetEntity="Language", inversedBy="locales")
      * @ORM\JoinColumn(name="language_id", referencedColumnName="id", nullable=false)
+     *
+     * @JMS\Expose
      */
     protected $language;
 
@@ -61,6 +66,8 @@ class Locale extends AbstractEntity
      * @var Country
      * @ORM\ManyToOne(targetEntity="Country", inversedBy="locales")
      * @ORM\JoinColumn(name="country_id", referencedColumnName="id", nullable=false)
+     *
+     * @JMS\Expose
      */
     protected $country;
 

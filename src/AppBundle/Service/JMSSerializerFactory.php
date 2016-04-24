@@ -66,7 +66,7 @@ class JMSSerializerFactory
         $builder
             ->setCacheDir($this->cacheDir)
             ->setDebug($this->calculateDebug());
-        AnnotationRegistry::registerAutoloadNamespace($this->annotationsDir);
+        AnnotationRegistry::registerAutoloadNamespace('JMS\Serializer\Annotation', $this->annotationsDir);
         return $builder->build();
     }
 }
