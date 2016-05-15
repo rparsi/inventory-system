@@ -83,4 +83,14 @@ class DefaultController extends AbstractAppController
         $companyTypes = $repository->findAll();
         return $this->createJsonResponse($companyTypes);
     }
+
+    /**
+     * @param Request $request
+     * @Route("/frontendtest", name="frontendtest")
+     * @return Response
+     */
+    public function frontendTestAction(Request $request)
+    {
+        return $this->render('default/frontendtest.html.twig', ['user' => $this->getLoggedInUser()]);
+    }
 }

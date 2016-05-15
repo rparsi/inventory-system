@@ -1,0 +1,17 @@
+{
+  "jspm": {
+    "directories": {
+      "baseURL": "app",
+      "clientBaseURL": "../web/js/build"
+    },
+    "dependencies": {
+      "jquery": "npm:jquery@^2.2.3",
+      "webpack": "npm:webpack@^1.13.0"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.24",
+      "babel-runtime": "npm:babel-runtime@^5.8.24",
+      "core-js": "npm:core-js@^1.1.4"
+    }
+  }
+}
