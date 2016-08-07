@@ -14,8 +14,8 @@ System.config({
   },
   bundles: {
     "build.js": [
-      "npm:jquery@2.2.3.js",
-      "npm:jquery@2.2.3/dist/jquery.js",
+      "npm:jquery@2.2.4.js",
+      "npm:jquery@2.2.4/dist/jquery.js",
       "npm:babel-runtime@5.8.38/helpers/class-call-check.js",
       "npm:babel-runtime@5.8.38/helpers/create-class.js",
       "npm:babel-runtime@5.8.38/core-js/object/define-property.js",

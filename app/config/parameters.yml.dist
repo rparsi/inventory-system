@@ -4,6 +4,7 @@
 parameters:
     mailer_transport:  smtp
     mailer_host:       localhost
+    mailer_port:       25
     mailer_user:       ~
     mailer_password:   ~
 
