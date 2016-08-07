@@ -72,8 +72,6 @@ Database & Initial User
     If you encounter this, for now, please manually add length to its INDEX.
     Use length of 20 for username_canonical and 100 for email_canonical
 
-    Alternatively, you can import `setup.sql`
-
 2. Create a user via registration form
 
     Unfortunately, we cannot create user via FOSUserBundle command because we extended this and it contains required fields which the command doesn't prompt for
